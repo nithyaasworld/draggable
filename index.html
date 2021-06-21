@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="draggable-box" class="draggable-box">
+        <p>DragBox</p>
+      </div>
+    </div>
+    <script>
+      let x = 0;
+      let y = 0;
+      const draggableBox = document.getElementById("draggable-box");
+      const container = document.querySelector(".container");
+
+      const mouseDownHandler = (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        draggableBox.addEventListener("mousemove", mouseMoveHandler);
+      };
+
+      const mouseMoveHandler = (e) => {
+        let dx = e.clientX - x;
+        let dy = e.clientY - y;
+
+        draggableBox.style.left =
+          draggableBox.offsetLeft + dx >= (container.offsetLeft + container.offsetWidth - draggableBox.offsetWidth)
+            ? container.offsetLeft + container.offsetWidth - draggableBox.offsetWidth + "px"
+            : draggableBox.offsetLeft + dx <= container.offsetLeft ? container.offsetLeft : draggableBox.offsetLeft + dx + "px";
+        
+        draggableBox.style.top =
+          draggableBox.offsetTop + dy >= (container.offsetTop + container.offsetHeight - draggableBox.offsetHeight)
+            ? container.offsetTop + container.offsetHeight - draggableBox.offsetHeight + "px"
+            : draggableBox.offsetTop + dy <= container.offsetTop ? container.offsetTop : draggableBox.offsetTop + dy + "px";
+
+        x = e.clientX;
+        y = e.clientY;
+      };
+
+      const mouseUpHandler = (e) => {
+        draggableBox.removeEventListener("mousemove", mouseMoveHandler);
+      };
+
+      draggableBox.addEventListener("mousedown", mouseDownHandler);
+      draggableBox.addEventListener("mouseup", mouseUpHandler);
+    </script>
+  </body>
+</html>
